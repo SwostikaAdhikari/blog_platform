@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Welcome to your Dashboard, {{ current_user.username }}!</h2>
+<a href="{{ url_for('create_post') }}" class="btn btn-success mb-3">Create Your Post</a>
+
+{% if posts %}
+<h3>Your Posts:</h3>
+<ul class="list-group">
+    {% for post in posts %}
+    <li class="list-group-item">
+        <h5>{{ post.title }}</h5>
+        <p>{{ post.content }}</p>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>You have not created any posts yet.</p>
+{% endif %}
+{% endblock %}
