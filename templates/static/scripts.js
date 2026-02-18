@@ -1,24 +1,14 @@
-// Client-side form validation
-function validateRegisterForm() {
-    let password = document.getElementById('password').value;
-    if (password.length < 8) {
-        alert('Password must be at least 8 characters long.');
-        return false;
+// Example: validate registration form
+document.addEventListener('DOMContentLoaded', function () {
+    const registerForm = document.querySelector('form[action="/register"]');
+    if (registerForm) {
+        registerForm.addEventListener('submit', function (e) {
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirm_password').value;
+            if (password !== confirm) {
+                e.preventDefault();
+                alert('Passwords do not match!');
+            }
+        });
     }
-    return true;
-}
-
-function validateLoginForm() {
-    // Simple check – can be extended
-    return true;
-}
-
-function validatePostForm() {
-    let title = document.getElementById('title').value.trim();
-    let content = document.getElementById('content').value.trim();
-    if (title === '' || content === '') {
-        alert('Title and content cannot be empty.');
-        return false;
-    }
-    return true;
-}
+});
