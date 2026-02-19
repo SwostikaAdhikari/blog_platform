@@ -4,6 +4,7 @@ from extensions import db, login_manager
 from models import User, Post, Comment
 from forms import LoginForm, RegistrationForm, PostForm, CommentForm
 from flask_login import login_user, logout_user, login_required, current_user
+import os
 
 def create_app():
     app = Flask(__name__)
@@ -16,7 +17,6 @@ def create_app():
     def load_user(user_id):
         return User.query.get(int(user_id))
 
-    # Routes
     @app.route('/')
     def home():
         posts = Post.query.order_by(Post.date_posted.desc()).all()
@@ -103,10 +103,16 @@ def create_app():
     def contact():
         return render_template('contact.html')
 
-    return app
-
-if __name__ == '__main__':
-    app = create_app()
+    # Create database tables automatically
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+
+    return app
+
+# Global app object for Gunicorn
+app = create_app()
+
+# Only for local testing
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)
